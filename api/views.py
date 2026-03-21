@@ -5,27 +5,48 @@ from api.models import Product, Order
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-
-@api_view(['GET'])
-def product_list(request):
-    products = Product.objects.all()
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
-    
-@api_view(['GET'])
-def product_details(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    serializer = ProductSerializer(product)
-    return Response(serializer.data)
+from rest_framework import generics 
 
 
-@api_view(['GET'])
-def order_list(request):
-    orders = Order.objects.prefetch_related(
+class ProductListAPIView (generics.ListAPIView): 
+    queryset = Product.objects.filter(stock__gt=0)
+    serializer_class = ProductSerializer
+
+
+class ProductDetailAPIView (generics.RetrieveAPIView): 
+        queryset = Product.objects.all()
+        serializer_class = ProductSerializer
+        lookup_url_kwarg = 'product_id'
+        
+        
+class OrderListAPIView(generics.ListAPIView):
+    queryset = Order.objects.prefetch_related(
         'items', 'items__product'
     ).all()
-    serializer = OrderSerializer(orders, many=True)
-    return Response(serializer.data)
+    serializer_class = OrderSerializer
+
+
+
+# @api_view(['GET'])
+# def product_list(request):   # get all products
+#     products = Product.objects.all()
+#     serializer = ProductSerializer(products, many=True)
+#     return Response(serializer.data)
+    
+# @api_view(['GET'])
+# def product_details(request, pk):   # get single product
+#     product = get_object_or_404(Product, pk=pk)
+#     serializer = ProductSerializer(product)
+#     return Response(serializer.data)
+
+
+# @api_view(['GET'])
+# def order_list(request):    # get all orders
+#     orders = Order.objects.prefetch_related(
+#         'items', 'items__product'
+#     ).all()
+#     serializer = OrderSerializer(orders, many=True)
+#     return Response(serializer.data)
     
     
 @api_view(['GET'])

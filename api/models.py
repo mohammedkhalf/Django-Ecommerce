@@ -22,7 +22,7 @@ class Product(models.Model):
     
     
 class Order(models.Model):
-    class StatusChoices(models.TextChoices):
+    class StatusChoices(models.TextChoices):   #Enum
         PENDING = 'Pending'
         CONFIRMED = 'Confirmed'
         CANCELLED = 'Cancelled'
