@@ -4,7 +4,6 @@ from api.serializers import ProductSerializer, OrderSerializer, ProductInfoSeria
 from api.models import Product, Order
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-
 from rest_framework import generics 
 
 
@@ -26,27 +25,13 @@ class OrderListAPIView(generics.ListAPIView):
     serializer_class = OrderSerializer
 
 
+class UserOrderListAPIView(generics.ListAPIView):
+    queryset = Order.objects.prefetch_related('items__product')
+    serializer_class = OrderSerializer
 
-# @api_view(['GET'])
-# def product_list(request):   # get all products
-#     products = Product.objects.all()
-#     serializer = ProductSerializer(products, many=True)
-#     return Response(serializer.data)
-    
-# @api_view(['GET'])
-# def product_details(request, pk):   # get single product
-#     product = get_object_or_404(Product, pk=pk)
-#     serializer = ProductSerializer(product)
-#     return Response(serializer.data)
-
-
-# @api_view(['GET'])
-# def order_list(request):    # get all orders
-#     orders = Order.objects.prefetch_related(
-#         'items', 'items__product'
-#     ).all()
-#     serializer = OrderSerializer(orders, many=True)
-#     return Response(serializer.data)
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(user=self.request.user)
     
     
 @api_view(['GET'])

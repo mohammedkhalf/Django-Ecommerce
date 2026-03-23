@@ -54,4 +54,5 @@ class OrderItem(models.Model):
         return self.product.price* self.quantity
     
     def __str__(self):
-        return f"{self.quantity} x {self.product.name} in Order {self.order.name}"
+        # `Order` doesn't have a `name` field; display a stable identifier instead.
+        return f"{self.quantity} x {self.product.name} in Order {self.order.order_id}"
