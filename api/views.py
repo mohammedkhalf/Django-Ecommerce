@@ -4,13 +4,25 @@ from api.serializers import ProductSerializer, OrderSerializer, ProductInfoSeria
 from api.models import Product, Order
 from rest_framework.response import Response
 from rest_framework import generics 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import (
+    IsAuthenticated,
+    IsAdminUser,
+    AllowAny
+)
 from rest_framework.views import APIView
 
 
 class ProductListCreateAPIView (generics.ListCreateAPIView): 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    
+    def get_permissions(self):
+        self.permission_classes = [AllowAny]
+        if self.request.method == 'POST':
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
+    
+
 
 
 class ProductDetailAPIView (generics.RetrieveAPIView): 
@@ -34,8 +46,6 @@ class UserOrderListAPIView(generics.ListAPIView):
     def get_queryset(self):
         qs = super().get_queryset()
         return qs.filter(user=self.request.user)
-    
-    
     
     
 class ProductInfoAPIView(APIView):
