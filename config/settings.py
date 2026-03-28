@@ -121,3 +121,11 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Ecommerce Project API',
+    'DESCRIPTION': 'Build Scalable Ecommerce system',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
