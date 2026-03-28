@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.db.models import Max
 from api.serializers import ProductSerializer, OrderSerializer, ProductInfoSerializer
-from api.models import Product, Order
+from api.models import Product, Order, OrderItem
 from rest_framework.response import Response
 from rest_framework import generics 
 from rest_framework.permissions import (
@@ -19,17 +19,21 @@ class ProductListCreateAPIView (generics.ListCreateAPIView):
     def get_permissions(self):
         self.permission_classes = [AllowAny]
         if self.request.method == 'POST':
-            self.permission_classes = [IsAdminUser]
+                self.permission_classes = [IsAdminUser]
         return super().get_permissions()
     
-
-
-
-class ProductDetailAPIView (generics.RetrieveAPIView): 
+    
+class ProductDetailAPIView (generics.RetrieveUpdateDestroyAPIView): 
         queryset = Product.objects.all()
         serializer_class = ProductSerializer
         lookup_url_kwarg = 'product_id'
         
+        def get_permissions(self):
+            self.permission_classes = [AllowAny]
+            if self.request.method in ['PUT','PATCH','DELETE']:
+                self.permission_classes = [IsAdminUser]
+            return super().get_permissions()
+                
         
 class OrderListAPIView(generics.ListAPIView):
     queryset = Order.objects.prefetch_related(

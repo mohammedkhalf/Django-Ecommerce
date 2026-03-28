@@ -2,10 +2,32 @@ GET http://localhost:8000/products/ HTTP/1.1
 
 ###
 
+GET http://localhost:8000/products/2/ HTTP/1.1
+
+###
+
+PUT http://localhost:8000/products/2/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc0NjYwODUwLCJpYXQiOjE3NzQ2NjA1NTAsImp0aSI6ImFmZjdmMzQ4ZjI5YTQ5ZmI5ZjViN2NiMjM2NTVmNmExIiwidXNlcl9pZCI6IjEifQ.rkELEmP1QTIt6IUmu5eY31N9ZJNFBNmbWQlX6FcCSBU
+
+
+{
+  "name": "A test tv",
+  "description": "Maiores reiciendis quos voluptates consequatur blanditiis labore commodi facere tempora, sapiente nemo ducimus laudantium quia, excepturi perferendis facere nobis aperiam eius ipsam, itaque necessitatibus ipsa incidunt porro quis eum ducimus soluta non? Maxime maiores aspernatur vel tenetur, doloremque quas sunt rem sint minima accusantium exercitationem, ipsa quae consequatur laboriosam debitis?",
+  "price": "12",
+  "stock": 4
+}
+
+###
+
+DELETE http://localhost:8000/products/1/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc0NjYwODUwLCJpYXQiOjE3NzQ2NjA1NTAsImp0aSI6ImFmZjdmMzQ4ZjI5YTQ5ZmI5ZjViN2NiMjM2NTVmNmExIiwidXNlcl9pZCI6IjEifQ.rkELEmP1QTIt6IUmu5eY31N9ZJNFBNmbWQlX6FcCSBU
+
+###
+
 POST  http://localhost:8000/products/  HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc0NTcyODg5LCJpYXQiOjE3NzQ1NzI1ODksImp0aSI6ImQ4MGUzNWZjMTMzODQ0ZDI4YmVmYTFhMWNlNGE5ZTgxIiwidXNlcl9pZCI6IjEifQ.92gcOdroOljzIN7mW1cXHQFBf6YhWL_C1iB3n25q6p0
-
 
 {
     "name":"TV",
@@ -20,13 +42,21 @@ POST  http://localhost:8000/api/token/  HTTP/1.1
 Content-Type: application/json
 
 {
-    "username":"asd",
-    "password":"asd"
+    "username":"admin",
+    "password":"test"
 }
 
 
 ###
 
+POST  http://localhost:8000/api/token/refresh/  HTTP/1.1
+Content-Type: application/json
+
+{
+    "refresh" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3NDc0MzI3OSwiaWF0IjoxNzc0NjU2ODc5LCJqdGkiOiI2MzRlMjA2ZTQzNDQ0YzU1YTU2M2VhYzI4OGRmMWRkYyIsInVzZXJfaWQiOiIxIn0.8H62BREOxlMwLS9_0UpB62V6X_Y1IkBfhrk3U_WH0CM"
+}
+
+###
 
 GET  http://localhost:8000/user-orders/  HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc0NTcyOTMxLCJpYXQiOjE3NzQ1NzI2MzEsImp0aSI6IjliMWM5MjVhOTA3ZDRmYTY4OThhYjdjOTdjMmUwMjQ3IiwidXNlcl9pZCI6IjIifQ.aqB4tQ8lTD5_59b8pizH1IF5yfVHoEUmJUhVLCGhMi4
