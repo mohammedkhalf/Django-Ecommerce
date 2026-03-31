@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Max
 from api.serializers import ProductSerializer, OrderSerializer, ProductInfoSerializer
 from api.models import Product, Order, OrderItem
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import generics 
 from rest_framework.permissions import (
@@ -12,7 +13,7 @@ from rest_framework.permissions import (
 from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework import filters
-from api.filters  import ProductFilter,InStockFilterBackend
+from api.filters  import ProductFilter,InStockFilterBackend, OrderFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination,LimitOffsetPagination
 
@@ -54,18 +55,26 @@ class ProductDetailAPIView (generics.RetrieveUpdateDestroyAPIView):
                 
         
     
-# this class replace the below commented classes (OrderListAPIView , UserOrderListAPIView)        
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.prefetch_related('items__product')
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = None
+    filterset_class = OrderFilter
+    filter_backends = [DjangoFilterBackend]
     
-# class OrderListAPIView(generics.ListAPIView):
-#     queryset = Order.objects.prefetch_related(
-#         'items', 'items__product'
-#     ).all()
-#     serializer_class = OrderSerializer
+    @action(
+        detail=False, 
+        methods=['get'],
+        url_path='user-orders',
+        permission_classes = [IsAuthenticated]    
+    )
+    def user_order(self, request):
+        orders = self.get_queryset().filter(user=request.user)
+        serializer = self.get_serializer(orders,many=True)
+        return Response(serializer.data)
+        
+
 
 # class UserOrderListAPIView(generics.ListAPIView):
 #     queryset = Order.objects.prefetch_related('items__product')
