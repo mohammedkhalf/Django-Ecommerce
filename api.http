@@ -69,3 +69,23 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 ###
 GET http://localhost:8000/orders/f483478e-6c12-4ea6-bd83-8eab429a195d  HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc1ODQwMjU0LCJpYXQiOjE3NzU4Mzk5NTQsImp0aSI6ImYzZWViYWM0ZDVmYjQ5Njc4ODA1NDhiMDdlMjAyZWEyIiwidXNlcl9pZCI6IjIifQ.8EzmbsJzwB2lcjD3G1flFqGolmn7oGkqEVic5k-scRQ
+
+
+###
+POST http://localhost:8000/orders/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc1OTM2MDY1LCJpYXQiOjE3NzU5MzU3NjUsImp0aSI6IjVjZDFiMDI1NDg5MzQ0MDNhMjM2OWVkY2ZjMjExNjM4IiwidXNlcl9pZCI6IjIifQ.i1_sGXJvNB9oCx1odx0SGoRndAIqhNCB_3s0wNpdpUY
+
+{
+  "status": "Pending",
+  "items": [
+    {
+      "product": 2,
+      "quantity": 2
+    },
+    {
+        "product": 3,
+        "quantity": 1
+    }
+  ]
+}
