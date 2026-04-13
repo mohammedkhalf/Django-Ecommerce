@@ -9,7 +9,9 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             'username',
             'email',
-            'is_staff'
+            'is_staff',
+            'is_superuser',
+            'orders'
         )
         
 
