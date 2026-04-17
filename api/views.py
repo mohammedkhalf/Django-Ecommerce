@@ -2,6 +2,9 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Max
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+
+from django.views.decorators.vary import vary_on_headers
+
 from api.models import Product, Order, OrderItem,User
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -45,6 +48,8 @@ class ProductListCreateAPIView (generics.ListCreateAPIView):
     pagination_class.max_page_size = 6
 
     @method_decorator(cache_page(60 * 15 , key_prefix='product_list'))
+    @method_decorator(vary_on_headers("Authorization"))
+
     def list(self, request, *args, **kwargs):
         return super().list(request,*args, **kwargs)
     
