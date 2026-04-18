@@ -27,9 +27,11 @@ from api.serializers import (
             OrderCreateSerializer,
             UserSerializer
 )
-
+from rest_framework.throttling import ScopedRateThrottle
 
 class ProductListCreateAPIView (generics.ListCreateAPIView): 
+    throttle_scope = 'products'
+    throttle_classes = [ScopedRateThrottle]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filterset_class = ProductFilter
@@ -79,6 +81,7 @@ class ProductDetailAPIView (generics.RetrieveUpdateDestroyAPIView):
         
     
 class OrderViewSet(viewsets.ModelViewSet):
+    throttle_scope = 'orders'
     queryset = Order.objects.prefetch_related('items__product')
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
