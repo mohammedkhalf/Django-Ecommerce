@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from datetime import timedelta
 
@@ -157,3 +158,21 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
+
+# Celery (no trailing comma on broker URL — a tuple breaks config and falls back to amqp://localhost)
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/1"
+CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/1"
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+# Eager: tasks run inside the web process (no broker queue). Override to test a real queue + worker.
+#   unset + DEBUG True  -> eager True (default for local)
+#   CELERY_TASK_ALWAYS_EAGER=false -> use Redis queue; you must run: celery -A config worker -l info
+_eager = os.environ.get("CELERY_TASK_ALWAYS_EAGER")
+if _eager is not None:
+    CELERY_TASK_ALWAYS_EAGER = _eager.strip().lower() in ("1", "true", "yes", "on")
+else:
+    CELERY_TASK_ALWAYS_EAGER = DEBUG
+CELERY_TASK_EAGER_PROPAGATES = True
+
+DEFAULT_FROM_EMAIL = "webmaster@localhost"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
